@@ -1,4 +1,7 @@
-This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
+
+This project was bootstrapped with [Vue Native CLI](https://github.com/GeekyAnts/vue-native-cli), See the documentation for additional information on how to use the vue-native cli to create react-native projects using vuejs https://vue-native.io/docs/installation.html
+
+but under the covers it is really [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
 

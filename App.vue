@@ -1,5 +1,8 @@
 <template>
-  <app-navigation></app-navigation>
+  <view class="container">
+    <app-navigation v-if="authorized"></app-navigation>
+    <auth-navigation v-if="!authorized"></auth-navigation>
+  </view>
 </template>
 
 <script>
@@ -12,16 +15,37 @@ Vue.use(VueNativeBase);
 
 import HomeVue from "./views/Home.vue";
 import DetailVue from "./views/Detail.vue";
+import SignUpVue from "./views/SignUp.vue";
+import SignInVue from "./views/SignIn.vue";
+
 const AppNavigation = StackNavigator(
   {
     Home: HomeVue,
-    Detail: DetailVue,
+    Detail: DetailVue
   },
   {
     initialRouteName: "Home"
   }
 );
+
+const AuthNavigation = StackNavigator({
+  SignIn: SignInVue,
+  SignUp: SignUpVue
+});
 export default {
-  components: { AppNavigation }
+  components: { AppNavigation, AuthNavigation },
+  data: function() {
+    return {
+      authorized: false
+    };
+  }
 };
 </script>
+<style>
+.container {
+  flex: 1;
+}
+.text-color-primary {
+  color: blue;
+}
+</style>

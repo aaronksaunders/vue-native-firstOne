@@ -1,6 +1,5 @@
 <template>
   <nb-container>
-
     <nb-content padder>
       <nb-text class="text-color-primary">My Vue Native App - SignUp</nb-text>
       <nb-text :style="{marginTop:10}">{{navigation.state.routeName}}</nb-text>

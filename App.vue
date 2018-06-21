@@ -36,7 +36,7 @@ export default {
   components: { AppNavigation, AuthNavigation },
   data: function() {
     return {
-      authorized: false
+      authorized: true
     };
   }
 };

@@ -19,35 +19,35 @@
         <nb-text>Sign In</nb-text>
       </nb-button>
       <nb-button block :onPress="() => navigation.navigate('SignUp')" :style="{ margin: 15, marginTop: 0 }">
-        <nb-text >Sign Up</nb-text>
+        <nb-text>Sign Up</nb-text>
       </nb-button>
     </nb-content>
   </nb-container>
 </template>
 <script>
-export default {
-  props: {
-    navigation: {
-      type: Object
+  export default {
+    props: {
+      navigation: {
+        type: Object
+      }
+    },
+    methods: {},
+    data: function() {
+      return {
+        authorized: false,
+        creds: {}
+      };
     }
-  },
-  methods: {},
-  data: function() {
-    return {
-      authorized: false,
-      creds : {}
-    };
-  }
-};
+  };
 </script>
 <style>
-.container {
-  background-color: white;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-}
-.text-color-primary {
-  color: blue;
-}
+  .container {
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+  .text-color-primary {
+    color: blue;
+  }
 </style>

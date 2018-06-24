@@ -17,10 +17,10 @@
           <nb-label>Password</nb-label>
           <nb-input secureTextEntry v-model="creds.password" />
         </nb-item>
-          <nb-item stackedLabel :style="{height:120}">
-            <nb-label>Bio</nb-label>
-            <nb-textarea :style="{marginLeft: -15, marginTop: 8,width:'100%', height:100}" v-model="creds.bio"  />
-          </nb-item>
+        <nb-item stackedLabel :style="{height:120}">
+          <nb-label>Bio</nb-label>
+          <nb-textarea :style="{marginLeft: -15, marginTop: 8,width:'100%', height:100}" v-model="creds.bio" />
+        </nb-item>
       </nb-form>
       <nb-button :onPress="() => doSignUp()" block :style="{ margin: 15, marginTop: 50 }">
         <nb-text>Sign Up</nb-text>

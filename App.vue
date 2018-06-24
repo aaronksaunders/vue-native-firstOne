@@ -6,46 +6,60 @@
 </template>
 
 <script>
-import Vue from "vue-native-core";
-import { StackNavigator } from "vue-native-router";
-import { VueNativeBase } from "native-base";
+  import Vue from "vue-native-core";
+  import { StackNavigator } from "vue-native-router";
+  import { VueNativeBase } from "native-base";
 
-// registering all native-base components to the global scope of the Vue
-Vue.use(VueNativeBase);
+  import { store } from "./store";
 
-import HomeVue from "./views/Home.vue";
-import DetailVue from "./views/Detail.vue";
-import SignUpVue from "./views/SignUp.vue";
-import SignInVue from "./views/SignIn.vue";
+  import * as firebase from "firebase";
 
-const AppNavigation = StackNavigator(
-  {
-    Home: HomeVue,
-    Detail: DetailVue
-  },
-  {
-    initialRouteName: "Home"
-  }
-);
+  // registering all native-base components to the global scope of the Vue
+  Vue.use(VueNativeBase);
 
-const AuthNavigation = StackNavigator({
-  SignIn: SignInVue,
-  SignUp: SignUpVue
-});
-export default {
-  components: { AppNavigation, AuthNavigation },
-  data: function() {
-    return {
-      authorized: true
-    };
-  }
-};
+  import HomeVue from "./views/Home.vue";
+  import DetailVue from "./views/Detail.vue";
+  import SignUpVue from "./views/SignUp.vue";
+  import SignInVue from "./views/SignIn.vue";
+
+  const AppNavigation = StackNavigator(
+    {
+      Home: HomeVue,
+      Detail: DetailVue
+    },
+    {
+      initialRouteName: "Home"
+    }
+  );
+
+  const AuthNavigation = StackNavigator({
+    SignIn: SignInVue,
+    SignUp: SignUpVue
+  });
+  export default {
+    components: { AppNavigation, AuthNavigation },
+    data: function() {
+      return {
+        authorized: true
+      };
+    },
+    created() {
+      firebase.initializeApp({
+//ADD YOUR OWN
+      });
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          store.dispatch("autoSignIn", user);
+        }
+      });
+    }
+  };
 </script>
 <style>
-.container {
-  flex: 1;
-}
-.text-color-primary {
-  color: blue;
-}
+  .container {
+    flex: 1;
+  }
+  .text-color-primary {
+    color: blue;
+  }
 </style>

@@ -1,6 +1,7 @@
 import * as firebase from "firebase";
 
 export default {
+  namespaced: true,
   state: {
     user: null
   },
@@ -13,13 +14,19 @@ export default {
     signUserUp({
       commit
     }, payload) {
-      commit("setLoading", true);
-      commit("clearError");
+      commit("shared/setLoading", true, {
+        root: true
+      });
+      commit("shared/clearError", null, {
+        root: true
+      });
       firebase
         .auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
         .then(user => {
-          commit("setLoading", false);
+          commit("shared/setLoading", false, {
+            root: true
+          });
           const newUser = {
             id: user.uid,
             name: user.displayName,
@@ -29,21 +36,31 @@ export default {
           commit("setUser", newUser);
         })
         .catch(error => {
-          commit("setLoading", false);
-          commit("setError", error);
+          commit("shared/setLoading", false, {
+            root: true
+          });
+          commit("shared/setError", error, {
+            root: true
+          });
           console.log(error);
         });
     },
     signUserIn({
       commit
     }, payload) {
-      commit("setLoading", true);
-      commit("clearError");
+      commit("shared/setLoading", true, {
+        root: true
+      });
+      commit("shared/clearError", null, {
+        root: true
+      });
       firebase
         .auth()
         .signInWithEmailAndPassword(payload.email, payload.password)
         .then(user => {
-          commit("setLoading", false);
+          commit("shared/setLoading", false, {
+            root: true
+          });
           const newUser = {
             id: user.uid,
             name: user.displayName,
@@ -53,8 +70,12 @@ export default {
           commit("setUser", newUser);
         })
         .catch(error => {
-          commit("setLoading", false);
-          commit("setError", error);
+          commit("shared/setLoading", false, {
+            root: true
+          });
+          commit("shared/setError", error, {
+            root: true
+          });
           console.log(error);
         });
     },
@@ -75,17 +96,25 @@ export default {
       const {
         email
       } = payload;
-      commit("setLoading", true);
+      commit("shared/setLoading", true, {
+        root: true
+      });
       firebase
         .auth()
         .sendPasswordResetEmail(email)
         .then(() => {
-          commit("setLoading", false);
+          commit("shared/setLoading", false, {
+            root: true
+          });
           console.log("Email Sent");
         })
         .catch(error => {
-          commit("setLoading", false);
-          commit("setError", error);
+          commit("shared/setLoading", false, {
+            root: true
+          });
+          commit("shared/setError", error, {
+            root: true
+          });
           console.log(error);
         });
     },
@@ -94,6 +123,7 @@ export default {
     }) {
       firebase.auth().signOut();
       commit("setUser", null);
+      console.log("logout")
     }
   },
   getters: {

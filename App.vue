@@ -14,6 +14,8 @@
 
   import * as firebase from "firebase";
 
+  Vue.prototype.$store = store;
+
   // registering all native-base components to the global scope of the Vue
   Vue.use(VueNativeBase);
 
@@ -45,11 +47,14 @@
     },
     created() {
       firebase.initializeApp({
-//ADD YOUR OWN
+
       });
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
           store.dispatch("autoSignIn", user);
+          this.authorized = true;
+        } else {
+          this.authorized = false;
         }
       });
     }

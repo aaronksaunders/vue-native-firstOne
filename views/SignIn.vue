@@ -8,34 +8,49 @@
       <nb-form>
         <nb-item stackedLabel>
           <nb-label>Username</nb-label>
-          <nb-input />
+          <nb-input v-model="credentials.email" />
         </nb-item>
         <nb-item stackedLabel last>
           <nb-label>Password</nb-label>
-          <nb-input secureTextEntry />
+          <nb-input secureTextEntry v-model="credentials.password" type="password" />
         </nb-item>
       </nb-form>
-      <nb-button block :style="{ margin: 15, marginTop: 50 }">
+      <nb-button block :onPress="() => doLogin()" :style="{ margin: 15, marginTop: 50 }">
         <nb-text>Sign In</nb-text>
       </nb-button>
       <nb-button block :onPress="() => navigation.navigate('SignUp')" :style="{ margin: 15, marginTop: 0 }">
         <nb-text>Sign Up</nb-text>
       </nb-button>
+      <view v-if="error" :style="{alignItems:'center'}">
+        <nb-text :style="{marginTop:10}">{{error.message}}</nb-text>
+      </view>
     </nb-content>
+
   </nb-container>
 </template>
 <script>
+  import { mapGetters, mapActions } from "vuex";
   export default {
     props: {
       navigation: {
         type: Object
       }
     },
-    methods: {},
+    computed: {
+      ...mapGetters("user", ["authError", "user"]),
+      ...mapGetters("shared", ["error"])
+    },
+    methods: {
+      ...mapActions("user", ["signUserIn"]),
+      doLogin() {
+        console.log(this.credentials);
+        this.signUserIn(this.credentials);
+      }
+    },
     data: function() {
       return {
         authorized: false,
-        creds: {}
+        credentials: {}
       };
     }
   };

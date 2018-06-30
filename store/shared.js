@@ -1,4 +1,5 @@
 export default {
+  namespaced: true,
   state: {
     loading: false,
     error: null
@@ -24,6 +25,11 @@ export default {
       commit
     }, payload) {
       commit('setError', payload)
+    },
+    setLoading({
+      commit
+    }, payload) {
+      commit('setLoading', payload)
     }
   },
   getters: {

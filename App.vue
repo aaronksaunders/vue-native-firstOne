@@ -51,7 +51,7 @@
       });
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
-          store.dispatch("autoSignIn", user);
+         this.$store.dispatch("user/autoSignIn", user);
           this.authorized = true;
         } else {
           this.authorized = false;

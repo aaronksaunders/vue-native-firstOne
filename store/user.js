@@ -1,5 +1,8 @@
 import * as firebase from "firebase";
 
+// Required for side-effects
+require('firebase/firestore');
+
 export default {
   namespaced: true,
   state: {
@@ -20,20 +23,30 @@ export default {
       commit("shared/clearError", null, {
         root: true
       });
-      firebase
+      let newUser = {
+        ...payload
+      }
+      return firebase
         .auth()
         .createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(user => {
+        .then(({
+          user
+        }) => {
           commit("shared/setLoading", false, {
             root: true
           });
-          const newUser = {
-            id: user.uid,
-            name: user.displayName,
-            email: user.email,
-            photoUrl: user.photoURL
-          };
-          commit("setUser", newUser);
+
+          console.log("createUserWithEmailAndPassword", user)
+          return firebase
+            .firestore()
+            .collection('users')
+            .doc(user.uid)
+            .set(newUser);
+        }).then(() => {
+
+          commit("setUser", { ...newUser,
+            id: user.uid
+          });
         })
         .catch(error => {
           commit("shared/setLoading", false, {
@@ -83,12 +96,41 @@ export default {
     autoSignIn({
       commit
     }, payload) {
-      commit("setUser", {
-        id: payload.uid,
-        name: payload.displayName,
-        email: payload.email,
-        photoUrl: payload.photoURL
-      });
+
+      var userRef = firebase
+        .firestore()
+        .collection('users')
+        .doc(payload.uid);
+
+      return userRef
+        .get()
+        .then(doc => {
+          if (doc.exists) {
+            console.log('Document data:', doc.data());
+
+            commit("setUser", {
+              id: payload.uid,
+              ...doc.data(),
+            });
+
+          } else {
+            // doc.data() will be undefined in this case
+            console.log('No such document!', payload.uid);
+            commit("setUser", null);
+            commit("shared/setError", {
+              message: "User Not Found"
+            }, {
+              root: true
+            });
+          }
+        })
+        .catch(error => {
+          console.log('Error getting document:', error);
+          commit("shared/setError", error, {
+            root: true
+          });
+        });
+
     },
     resetPasswordWithEmail({
       commit

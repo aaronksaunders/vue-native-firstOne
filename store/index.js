@@ -6,6 +6,7 @@ import shared from './shared'
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
+  strict: true,
   modules: {
     user: user,
     shared: shared

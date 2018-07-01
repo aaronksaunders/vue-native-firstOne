@@ -17,6 +17,8 @@
 
   import * as firebase from "firebase";
 
+  import { Font, AppLoading } from "expo";
+
   // this allows us access to the vuex-store in all of the components
   Vue.prototype.$store = store;
 
@@ -67,10 +69,20 @@
         authCheckComplete: false
       };
     },
-    created() {
+    beforeCreate() {
       firebase.initializeApp({
 
       });
+    },
+    async created() {
+
+      // load in the default font for native-base on android
+      let loaded = await Font.loadAsync({
+        Roboto: require("native-base/Fonts/Roboto.ttf"),
+        Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+      });
+      console.log(loaded);
+
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
           this.$store.dispatch("user/autoSignIn", user);

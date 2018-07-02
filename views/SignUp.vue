@@ -37,6 +37,8 @@
 </template>
  <script>
   import { mapGetters, mapActions } from "vuex";
+  import { Keyboard } from "react-native";
+
   export default {
     props: {
       navigation: {
@@ -52,6 +54,7 @@
       doSignUp() {
         console.log(this.credentials);
         this.signUserUp(this.credentials);
+        Keyboard.dismiss()
       }
     },
     data: function() {

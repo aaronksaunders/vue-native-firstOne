@@ -3,10 +3,13 @@
     <text class="text-color-primary">My Vue Native App - FirstOne</text>
     <nb-text :style="{marginTop:10}">{{navigation.state.routeName}}</nb-text>
     <nb-text :style="{marginTop:10}">{{user}}</nb-text>
+    <!-- get param from navigation -->
+    <nb-text :style="{marginTop:10}">{{navigation.getParam('time')}}</nb-text>
   </view>
 </template>
  <script>
   import { mapGetters, mapActions } from "vuex";
+  
   export default {
     props: {
       navigation: {

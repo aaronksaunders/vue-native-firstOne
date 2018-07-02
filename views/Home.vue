@@ -44,8 +44,13 @@
     methods: {
       ...mapActions("user", ["logout"]),
       handleBtnPress: function() {
-        console.log("handleBtnPress");
-        this.navigation.navigate("Detail");
+
+        // This is how you pass parameters from along with
+        // changing routes, we dont need this because we are
+        // using vuex to keep state information
+        this.navigation.navigate("Detail", {
+          time: new Date()
+        });
       },
       getLocationAsync: async function() {
         let { status } = await Permissions.askAsync(Permissions.LOCATION);

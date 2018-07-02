@@ -1,23 +1,19 @@
 <template>
-  <view class="container">
-    <app-navigation v-if="authCheckComplete && authorized"></app-navigation>
-    <auth-navigation v-if="authCheckComplete && !authorized"></auth-navigation>
-    <view v-if="!authCheckComplete" :style="{flex:1, alignItems : 'center', justifyContent : 'center'}">
-      <nb-text>LOADING ...</nb-text>
-    </view>
-  </view>
+  <root-navigation :authCheckComplete.sync="authCheckComplete" :authorized.sync="authorized">
+  </root-navigation>
 </template>
 
 <script>
   import Vue from "vue-native-core";
-  import { StackNavigator } from "vue-native-router";
+
   import { VueNativeBase } from "native-base";
+  import { Font, AppLoading } from "expo";
 
   import { store } from "./store";
 
   import * as firebase from "firebase";
 
-  import { Font, AppLoading } from "expo";
+  import RootNavigation from "./views/Root.vue";
 
   // this allows us access to the vuex-store in all of the components
   Vue.prototype.$store = store;
@@ -25,44 +21,9 @@
   // registering all native-base components to the global scope of the Vue
   Vue.use(VueNativeBase);
 
-  import HomeVue from "./views/Home.vue";
-  import DetailVue from "./views/Detail.vue";
-  import SignUpVue from "./views/SignUp.vue";
-  import SignInVue from "./views/SignIn.vue";
-
-  // ----------------------------------------------------------------------------
-  // THIS IS THE REACT NAVIGATION STUFF THAT IS WAY DIFFERENT FROM THE
-  // VUE-ROUTER WE ALL KNOW AND LOVE
-
-  // the is the navigation stack for the main application after authentication
-  // or account creation is completed. The stackNavigator is the basic master=detail UX
-  // that is seen in most mobile applications
-  const AppNavigation = StackNavigator(
-    {
-      // Home route will render the component HomeVue
-      Home: HomeVue,
-      // Detail route will render the component DetailVue
-      Detail: DetailVue
-    },
-    {
-      // when launching this "Navigator", use the "Home" route
-      initialRouteName: "Home"
-    }
-  );
-
-  // the is the navigation stack for authentication or creating a user.
-  // The stackNavigator is the basic master=detail UX that is seen in most
-  // mobile applications
-  const AuthNavigation = StackNavigator({
-    // SignIn route will render the component SignInVue
-    SignIn: SignInVue,
-    // SignUp route will render the component SignUpVue
-    SignUp: SignUpVue
-  });
-
   export default {
     // bring in the navigation components
-    components: { AppNavigation, AuthNavigation },
+    components: { RootNavigation },
     data: function() {
       return {
         authorized: false,
@@ -70,23 +31,29 @@
       };
     },
     beforeCreate() {
+      // initialize firebase..
       firebase.initializeApp({
 
       });
+
+      // remove warning from firebase
+      firebase.firestore().settings({
+        timestampsInSnapshots: true
+      });
     },
     async created() {
-
       // load in the default font for native-base on android
       let loaded = await Font.loadAsync({
         Roboto: require("native-base/Fonts/Roboto.ttf"),
         Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
       });
-      console.log(loaded);
 
+      // see if there is already a session saved with a firebase user,
+      // if so get the user, set the state in the store and render
+      // the appropriate navigator
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
           this.$store.dispatch("user/autoSignIn", user);
-          console.log("onAuthStateChanged", user);
           this.authorized = true;
         } else {
           this.authorized = false;

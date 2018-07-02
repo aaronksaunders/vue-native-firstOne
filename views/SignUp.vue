@@ -1,5 +1,12 @@
 <template>
   <nb-container>
+    <nb-header>
+      <nb-body>
+        <nb-title>
+          Create Account
+        </nb-title>
+      </nb-body>
+    </nb-header>
     <nb-content padder>
       <nb-text class="text-color-primary">My Vue Native App - SignUp</nb-text>
       <nb-text :style="{marginTop:10}">{{navigation.state.routeName}}</nb-text>
@@ -29,6 +36,9 @@
       <nb-button :onPress="() => doSignUp()" block :style="{ margin: 15, marginTop: 50 }">
         <nb-text>Sign Up</nb-text>
       </nb-button>
+      <nb-button :onPress="() => navigation.goBack()" block danger :style="{ margin: 15, marginTop: 5 }">
+        <nb-text>Cancel</nb-text>
+      </nb-button>
       <view v-if="error" :style="{alignItems:'center'}">
         <nb-text :style="{marginTop:10}">{{error.message}}</nb-text>
       </view>
@@ -54,7 +64,7 @@
       doSignUp() {
         console.log(this.credentials);
         this.signUserUp(this.credentials);
-        Keyboard.dismiss()
+        Keyboard.dismiss();
       }
     },
     data: function() {

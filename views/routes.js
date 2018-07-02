@@ -20,9 +20,12 @@ export const AppNavigation = StackNavigator({
   Home: {
     screen: HomeVue
   },
-  title: "THE HOME PAGE",
   // Detail route will render the component DetailVue
   Detail: DetailVue
+},
+{
+  initialRouteName: "Home",
+  headerMode: "none"
 });
 
 // the is the navigation stack for authentication or creating a user.
@@ -33,4 +36,8 @@ export const AuthNavigation = StackNavigator({
   SignIn: SignInVue,
   // SignUp route will render the component SignUpVue
   SignUp: SignUpVue
+},
+{
+  initialRouteName: "SignIn",
+  headerMode: "none"
 });

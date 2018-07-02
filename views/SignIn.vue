@@ -1,6 +1,12 @@
 <template>
   <nb-container>
-
+    <nb-header>
+      <nb-body>
+        <nb-title>
+          Login
+        </nb-title>
+      </nb-body>
+    </nb-header>
     <nb-content padder>
       <nb-text class="text-color-primary">My Vue Native App - SignIn</nb-text>
       <nb-text :style="{marginTop:10}">{{navigation.state.routeName}}</nb-text>
@@ -32,7 +38,7 @@
   import { mapGetters, mapActions } from "vuex";
   import { Keyboard } from "react-native";
 
-  const  navigationOptions = {
+  const navigationOptions = {
     title: "testeee"
   };
 

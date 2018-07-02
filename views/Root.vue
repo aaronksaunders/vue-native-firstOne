@@ -1,6 +1,7 @@
 <template>
   <view v-if="!authCheckComplete" class="loadingContainer">
-    <nb-text>LOADING ...</nb-text>
+    <nb-text :style="{color:'blue', fontWeight:'bold'}">LOADING ...</nb-text>
+    <nb-spinner color='blue' />
   </view>
   <view v-else class="container">
     <app-navigation v-if="authorized"></app-navigation>

@@ -8,7 +8,11 @@
           Main Screen
         </nb-title>
       </nb-body>
-      <nb-right></nb-right>
+      <nb-right>
+        <nb-button hasText transparent :onPress="navigation.getParam('logout')">
+          <nb-text >Logout</nb-text>
+        </nb-button>
+      </nb-right>
     </nb-header>
     <nb-content padder v-if="currentLocation" :contentContainerStyle="{alignItems:'center', justifyContent:'center'}">
       <nb-text :style="{marginBottom:10}" class="text-color-primary">My Vue Native App - FirstOne</nb-text>
@@ -23,9 +27,6 @@
       <view :style="{marginTop:10, width:250}">
         <nb-button block :onPress="() => handleBtnPress()">
           <nb-text>Click for Details Page</nb-text>
-        </nb-button>
-        <nb-button block :onPress="() => logout()" :style="{marginTop:10}" info>
-          <nb-text>Do Logout</nb-text>
         </nb-button>
       </view>
 
@@ -57,6 +58,10 @@
     },
     methods: {
       ...mapActions("user", ["logout"]),
+      _doLogout: function() {
+        console.log("do logout");
+        this.logout()
+      },
       handleBtnPress: function() {
         // This is how you pass parameters from along with
         // changing routes, we dont need this because we are
@@ -81,6 +86,11 @@
     },
     async created() {
       this.currentLocation = await this.getLocationAsync();
+    },
+    async mounted() {
+      this.navigation.setParams({
+        logout: this._doLogout
+      });
     }
   };
 </script>

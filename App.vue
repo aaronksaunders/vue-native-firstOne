@@ -33,12 +33,6 @@
     beforeCreate() {
       // initialize firebase..
       firebase.initializeApp({
-        apiKey: "AIzaSyDlVlqweaiBWBpmjGCxAK55SJioJ8y9FsE",
-        authDomain: "my-mentor-48f94.firebaseapp.com",
-        databaseURL: "https://my-mentor-48f94.firebaseio.com",
-        projectId: "my-mentor-48f94",
-        storageBucket: "my-mentor-48f94.appspot.com",
-        messagingSenderId: "148881402208"
       });
 
       // remove warning from firebase
